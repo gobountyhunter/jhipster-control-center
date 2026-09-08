@@ -111,7 +111,15 @@ class OAuth2ClientDiscoveryTest {
             .run(
                 context -> {
                     assertThat(context).hasFailed();
-                    assertThat(context.getStartupFailure()).hasRootCauseInstanceOf(IllegalStateException.class);
+                    assertThat(context.getStartupFailure())
+                        .hasRootCauseInstanceOf(IllegalStateException.class)
+                        .hasRootCauseMessage(
+                            "The Issuer \"" +
+                            issuer +
+                            "/different\" provided in the configuration metadata did not match the requested issuer \"" +
+                            issuer +
+                            "\""
+                        );
                     assertThat(discoveryRequests.get()).isPositive();
                 }
             );
